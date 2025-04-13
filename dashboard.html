@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Traffic Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <header class="hero glass-card">
+    <h1>Smart Traffic Control Dashboard</h1>
+    <a href="index.html" class="btn">← Back to Home</a>
+  </header>
+
+  <main class="dashboard-container">
+    <section class="glass-card">
+      <h2>🗺️ Live Traffic Map</h2>
+      <div id="map" style="height: 400px;"></div>
+      <div class="map-legend">
+        <span style="color:lime;">● Light</span>
+        <span style="color:orange;">● Medium</span>
+        <span style="color:red;">● Heavy</span>
+      </div>
+    </section>
+
+    <section id="traffic-dashboard" class="glass-card">
+      <div class="dashboard-item">
+        <h3>Vehicle Count</h3>
+        <span id="vehicle-count">0</span>
+      </div>
+      <div class="dashboard-item">
+        <h3>Violations</h3>
+        <span id="violation-count">0</span>
+      </div>
+      <div class="dashboard-item">
+        <h3>Signal Status</h3>
+        <span id="signal-health">Normal</span>
+      </div>
+    </section>
+
+    <section class="glass-card">
+      <h2>⚙️ Traffic Signal Control</h2>
+      <div id="signal-boxes"></div>
+      <div id="manual-controls">
+        <div class="signal-control-wrapper">
+          <select id="signal-selector" class="signal-select">
+            <option value="all">All Signals</option>
+            <option value="signal-1">Signal 1</option>
+            <option value="signal-2">Signal 2</option>
+            <option value="signal-3">Signal 3</option>
+          </select>
+          <div class="signal-buttons">
+            <button class="btn" onclick="setSignalColor('green')">Set Green</button>
+            <button class="btn" onclick="setSignalColor('yellow')">Set Yellow</button>
+            <button class="btn" onclick="setSignalColor('red')">Set Red</button>
+            <button class="btn" onclick="setAutomatic()">Set Automatic</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dashboard-grid">
+      <section class="glass-card">
+        <h2>⚠️ Violation Log</h2>
+        <button onclick="clearViolations()" class="btn">Clear Log</button>
+        <ul id="violation-log"></ul>
+      </section>
+
+      <section class="glass-card">
+        <h2>🔮 Traffic Predictions</h2>
+        <div id="prediction-box"></div>
+      </section>
+
+      <section class="glass-card">
+        <h2>🚨 Live Notifications</h2>
+        <div id="real-time-notifications"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="glass-card">
+    <p>&copy; 2025 Smart Traffic Management System</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
