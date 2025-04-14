@@ -144,6 +144,29 @@ function detectViolation(vehicle) {
   
   violationCount++;
   document.getElementById('violation-count').textContent = violationCount;
+
+  // Log violation to server
+  logViolation(vehicle.id, violation, 'signal-1'); // Assuming signal-1 for now
+}
+
+// Add this function after detectViolation
+function logViolation(vehicleId, violationType, signalId) {
+    const data = {
+        vehicle_id: vehicleId,
+        violation_type: violationType,
+        signal_id: signalId
+    };
+
+    fetch('log_violation.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 }
 
 // Traffic prediction
@@ -182,6 +205,24 @@ function updatePredictions() {
       <span style="color: ${color}">${prediction}</span>
     `;
     predictionBox.appendChild(predictionItem);
+
+    // Log prediction to the backend
+    const data = {
+      prediction: prediction,
+      time_frame: time,
+      confidence_level: heavyProb > 0.3 ? heavyProb : mediumProb
+    };
+
+    fetch('log_violation.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.text())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
   });
 }
 
@@ -261,6 +302,24 @@ function setSignalColor(color) {
     signals.forEach(signal => {
       manuallyControlledSignals.add(signal.id);
       updateSignalState(signal, color);
+
+      // Log signal change to the backend
+      const data = {
+        changed_signal: signal.id,
+        changed_to: color,
+        changed_by: 'admin'
+      };
+
+      fetch('log_violation.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
     });
     document.getElementById('signal-health').textContent = 
       `All signals manually set to ${color}`;
@@ -270,6 +329,25 @@ function setSignalColor(color) {
     if (signal) {
       manuallyControlledSignals.add(signal.id);
       updateSignalState(signal, color);
+
+      // Log signal change to the backend
+      const data = {
+        changed_signal: signal.id,
+        changed_to: color,
+        changed_by: 'admin'
+      };
+
+      fetch('log_violation.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+
       document.getElementById('signal-health').textContent = 
         `${signal.id} manually set to ${color}`;
     }
